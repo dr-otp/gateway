@@ -10,7 +10,7 @@ export class UserRoleGuard implements CanActivate {
   constructor(private readonly reflector: Reflector) {}
 
   canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
-    const validRoles = this.reflector.get<Role[]>(META_ROLES_KEY, context.getHandler());
+    const validRoles = this.reflector.getAllAndOverride<Role[]>(META_ROLES_KEY, [context.getHandler(), context.getClass()]);
 
     if (!validRoles || validRoles.length === 0) return true;
 

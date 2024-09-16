@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { OtpController } from './otp.controller';
 import { NatsModule } from 'src/transports/nats.module';
+import { VoucherController } from './voucher.controller';
 
 @Module({
-  controllers: [OtpController],
+  controllers: [VoucherController],
   imports: [NatsModule],
 })
-export class OtpModule {}
+export class VoucherModule {}
