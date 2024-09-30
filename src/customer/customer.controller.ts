@@ -39,9 +39,27 @@ export class CustomerController {
     );
   }
 
+  @Get('summary')
+  findAllSummary(@Query() pagination: PaginationDto, @User() user: CurrentUser) {
+    return this.client.send('customer.find.all.summary', { pagination, user }).pipe(
+      catchError((error) => {
+        throw new RpcException(error);
+      }),
+    );
+  }
+
   @Get(':id')
   findOne(@Param('id', ParseCuidPipe) id: string, @User() user: CurrentUser) {
     return this.client.send('customer.find.one', { id, user }).pipe(
+      catchError((error) => {
+        throw new RpcException(error);
+      }),
+    );
+  }
+
+  @Get(':id/summary')
+  findOneSummary(@Param('id', ParseCuidPipe) id: string, @User() user: CurrentUser) {
+    return this.client.send('customer.find.one.summary', { id, user }).pipe(
       catchError((error) => {
         throw new RpcException(error);
       }),
