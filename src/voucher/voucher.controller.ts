@@ -6,7 +6,7 @@ import { PaginationDto, ParseCuidPipe } from 'src/common';
 import { NATS_SERVICE } from 'src/config';
 import { CreateVoucherDto, UpdateVoucherStatusDto } from './dto';
 
-@Controller('voucher')
+@Controller('vouchers')
 @Auth(Role.Moderator, Role.Admin)
 export class VoucherController {
   constructor(@Inject(NATS_SERVICE) private readonly client: ClientProxy) {}

@@ -7,7 +7,7 @@ import { PaginationDto, ParseCuidPipe } from 'src/common';
 import { NATS_SERVICE } from 'src/config';
 import { CreateCustomerDto, UpdateCustomerDto } from './dto';
 
-@Controller('customer')
+@Controller('customers')
 @Auth(Role.Moderator, Role.Admin)
 export class CustomerController {
   constructor(@Inject(NATS_SERVICE) private readonly client: ClientProxy) {}
