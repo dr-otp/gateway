@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Inject, Param, Patch, Post, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Inject, Param, ParseIntPipe, Patch, Post, Query } from '@nestjs/common';
 import { ClientProxy, RpcException } from '@nestjs/microservices';
 import { catchError } from 'rxjs';
 
@@ -57,6 +57,15 @@ export class CustomerController {
     );
   }
 
+  @Get('code/:code')
+  findOneByCode(@Param('code', ParseIntPipe) code: number, @User() user: CurrentUser) {
+    return this.client.send('customer.find.one.code', { code, user }).pipe(
+      catchError((error) => {
+        throw new RpcException(error);
+      }),
+    );
+  }
+
   @Get(':id/summary')
   findOneSummary(@Param('id', ParseCuidPipe) id: string, @User() user: CurrentUser) {
     return this.client.send('customer.find.one.summary', { id, user }).pipe(
@@ -66,9 +75,9 @@ export class CustomerController {
     );
   }
 
-  @Patch()
-  update(@Body() updateCustomerDto: UpdateCustomerDto, @User() user: CurrentUser) {
-    return this.client.send('customer.update', { updateCustomerDto, user }).pipe(
+  @Patch(':id')
+  update(@Param('id', ParseCuidPipe) id: string, @Body() updateCustomerDto: UpdateCustomerDto, @User() user: CurrentUser) {
+    return this.client.send('customer.update', { updateCustomerDto: { ...updateCustomerDto, id }, user }).pipe(
       catchError((error) => {
         throw new RpcException(error);
       }),
