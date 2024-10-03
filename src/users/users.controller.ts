@@ -142,12 +142,12 @@ export class UsersController {
     );
   }
 
-  @Patch()
+  @Patch(':id')
   @Auth(Role.Admin, Role.Moderator)
-  async update(@Body() updateUserDto: UpdateUserDto) {
-    const existingUser = await firstValueFrom(this.client.send('users.find.id', { id: updateUserDto.id }));
+  async update(@Param('id', ParseUUIDPipe) id: string, @Body() updateUserDto: UpdateUserDto) {
+    const existingUser = await firstValueFrom(this.client.send('users.find.id', { id }));
 
-    return this.client.send('users.update', updateUserDto).pipe(
+    return this.client.send('users.update', { ...updateUserDto, id }).pipe(
       catchError((error) => {
         throw new RpcException(error);
       }),
