@@ -180,7 +180,7 @@ export class UsersController {
     );
   }
 
-  @Patch('restore/:id')
+  @Patch(':id/restore')
   @Auth(Role.Admin, Role.Moderator)
   restore(@Param('id', ParseUUIDPipe) id: string) {
     return this.client.send('users.restore', { id }).pipe(
@@ -210,7 +210,6 @@ export class UsersController {
     await this.cacheManager.del(`user:${user.id}`);
     await this.cacheManager.del(`user:meta:${user.id}`);
     await this.cacheManager.del(`user:summary:${user.id}`);
-
     await this.cacheManager.del(`user:${user.username}`);
     await this.cacheManager.del(`user:${user.email}`);
   }

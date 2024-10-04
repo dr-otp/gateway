@@ -1,4 +1,4 @@
-import { IsEmail, IsEnum, IsOptional, IsString, IsStrongPassword, MinLength } from 'class-validator';
+import { IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString, IsStrongPassword, MinLength } from 'class-validator';
 import { Role } from '../interfaces';
 
 export class CreateUserDto {
@@ -10,10 +10,11 @@ export class CreateUserDto {
   @IsEmail()
   email: string;
 
-  @IsString()
+  @IsNotEmpty()
   @MinLength(6)
   @IsStrongPassword()
-  password: string;
+  @IsOptional()
+  password?: string;
 
   @IsEnum(Role, { each: true })
   @IsOptional()
