@@ -1,11 +1,10 @@
-import { IsDecimal, IsNotEmpty, IsPositive, MinLength } from 'class-validator';
+import { IsDecimal, IsNotEmpty, MinLength } from 'class-validator';
 
 export class CreateProductDto {
   @IsNotEmpty()
   @MinLength(3)
   name: string;
 
-  @IsPositive()
-  @IsDecimal({ decimal_digits: '8' })
-  price: number;
+  @IsDecimal({ decimal_digits: '8', force_decimal: true })
+  price: string;
 }
