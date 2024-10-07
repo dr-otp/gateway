@@ -14,8 +14,8 @@ export class ProductController {
 
   @Post()
   @Auth(Role.Moderator, Role.Admin)
-  async create(@Body() createProductDto: CreateProductDto) {
-    return this.client.send('product.create', createProductDto).pipe(
+  async create(@Body() createProductDto: CreateProductDto, @User() user: CurrentUser) {
+    return this.client.send('product.create', { createProductDto, user }).pipe(
       catchError((error) => {
         throw new RpcException(error);
       }),
