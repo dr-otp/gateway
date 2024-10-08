@@ -22,7 +22,7 @@ export class VoucherController {
 
   @Post()
   create(@Body() createVoucherDto: CreateVoucherDto, @User() user: CurrentUser) {
-    return this.client.send('voucher.create', { ...createVoucherDto, userId: user.id }).pipe(
+    return this.client.send('voucher.create', { createVoucherDto, user }).pipe(
       catchError((error) => {
         throw new RpcException(error);
       }),

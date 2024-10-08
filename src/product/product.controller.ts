@@ -12,6 +12,15 @@ import { CreateProductDto, UpdateProductDto } from './dto';
 export class ProductController {
   constructor(@Inject(NATS_SERVICE) private readonly client: ClientProxy) {}
 
+  @Get('health')
+  healthCheck() {
+    return this.client.send('product.health', {}).pipe(
+      catchError((error) => {
+        throw new RpcException(error);
+      }),
+    );
+  }
+
   @Post()
   @Auth(Role.Moderator, Role.Admin)
   async create(@Body() createProductDto: CreateProductDto, @User() user: CurrentUser) {
