@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
-import { CustomerController } from './customer.controller';
+import { RedisModule } from 'src/redis/redis.module';
 import { NatsModule } from 'src/transports/nats.module';
+import { CustomerController } from './customer.controller';
 
 @Module({
   controllers: [CustomerController],
-  imports: [NatsModule],
+  imports: [NatsModule, RedisModule],
 })
 export class CustomerModule {}
